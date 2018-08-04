@@ -1,0 +1,34 @@
+0.创建数据库robot
+create database robot default charset utf8 collate utf8_general_ci;
+1.创建user用户表
+create table user(
+    id int primary key auto_increment,
+    name char(15) not null,
+    passwd text not null,
+    nickname char(15)
+)auto_increment=1 default charset=utf8;
+
+2、导入product商品表操作步骤
+        1、在数据库中创建对应的表
+            create table product(
+            id char(20),
+            key_word varchar(30),
+            product_series varchar(30),
+            brand varchar(30),
+            price varchar(30),
+            image_url text,
+            detail_url text
+            );
+        2、将要导入的文件拷贝到数据库的默认搜索路径中
+            1、查看数据库的默认搜索路径
+                show variables like "secure_file_priv";
+                /var/lib/mysql-files
+            2、Linux命令行输入：
+                sudo cp /etc/product.csv  /var/lib/mysql-files/
+        3、执行数据导入sql语句
+            load data infile "/var/lib/mysql-files/product.csv"
+            into table product
+            fields terminated by ":"
+            lines terminated by "\n";
+
+            # 修改文件权限 chmod 666 product.csv
